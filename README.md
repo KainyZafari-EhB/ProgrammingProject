@@ -24,7 +24,7 @@ Het einddoel en de functies worden bepaald na de voorbereidingsfase.
 
 ## 👥 Teamleden
 - Adam Jaidi – [Scrum Master / Developer]
-- Ilyad Fariss – [Developer]
+- Ilyas Fariss – [Developer]
 - Hana Amrani – [Developer]
 - Zafari Kainy – [Product Owner / Developer]
 - Abdourahim Aboulkassimi – [Developer]
