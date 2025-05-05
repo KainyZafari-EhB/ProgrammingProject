@@ -27,7 +27,7 @@ Het einddoel en de functies worden bepaald na de voorbereidingsfase.
 - Ilyas Fariss – [Developer]
 - Hana Amrani – [Developer]
 - Zafari Kainy – [Product Owner / Developer]
-- Abdourahim Aboulkassimi – [Developer]
+- Abdourahim Aboulkassimi – [Verslaggever/ Developer]
 - Adam Akkay – [Developer]
 
 
