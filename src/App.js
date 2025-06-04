@@ -1,11 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import HomeScreen from './screens/HomeScreen';
+import AgendaScreen from './screens/AgendaScreen';
+import MoreScreen from './screens/MoreScreen';
+import BottomNav from './components/BottomNav';
 
 export default function App() {
+  const [currentScreen, setCurrentScreen] = useState('home');
+
+  let ScreenComponent;
+  if (currentScreen === 'agenda') ScreenComponent = AgendaScreen;
+  else if (currentScreen === 'more') ScreenComponent = MoreScreen;
+  else ScreenComponent = HomeScreen;
+
   return (
     <View style={styles.container}>
-      <Text></Text>
-      <StatusBar style="auto" />
+      <ScreenComponent />
+      <BottomNav setCurrentScreen={setCurrentScreen} current={currentScreen} />
     </View>
   );
 }
@@ -13,8 +24,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
