@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function MoreScreen() {
   return (
     <View style={styles.container}>
-      <Text>☰ Meer opties</Text>
+      <Text>Meer opties</Text>
     </View>
   );
 }
