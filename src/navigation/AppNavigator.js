@@ -15,7 +15,7 @@ export default function AppNavigator() {
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: '#A3EEFF',
+            backgroundColor: '#fffff',
             borderTopWidth: 0,
             elevation: 0,
             height: 60,
