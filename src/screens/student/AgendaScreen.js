@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+
 
 const appointments = [
   {
@@ -7,10 +15,17 @@ const appointments = [
     time: '09:00 - 09:05',
     company: 'Deloitte',
   },
-  // Voeg hier meer afspraken toe indien nodig
+  // Meer afspraken hier indien nodig
 ];
 
-export default function AgendaScreen() {
+export default function AgendaScreen({ navigation }) {
+  const handlePress = (appointment) => {
+    navigation.navigate('AfspraakDetail', {
+      time: appointment.time,
+      company: appointment.company,
+    });
+  };
+
   return (
     <View style={styles.container}>
       {/* HEADER */}
@@ -20,66 +35,86 @@ export default function AgendaScreen() {
           style={styles.logo}
           resizeMode="contain"
         />
+        <View style={styles.profileCircle}>
+          <Text style={styles.profileText}>F</Text>
+        </View>
       </View>
 
-      {/* TITEL */}
-      <View style={styles.titleWrapper}>
+      {/* WITTE BOX */}
+      <View style={styles.whiteBox}>
         <Text style={styles.title}>AGENDA</Text>
         <Text style={styles.subtitle}>Afspraken</Text>
-      </View>
 
-      {/* AGENDA */}
-      <View style={styles.agendaBox}>
         <FlatList
           data={appointments}
           keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingTop: 10 }}
           renderItem={({ item }) => (
-            <View style={styles.appointmentItem}>
+            <TouchableOpacity
+              style={styles.appointmentItem}
+              onPress={() => handlePress(item)}
+            >
               <Text style={styles.time}>{item.time}</Text>
               <Text style={styles.company}>{item.company}</Text>
-            </View>
+            </TouchableOpacity>
           )}
         />
       </View>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#A3EEFF',
   },
   header: {
-    height: 80,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 20,
+    marginVertical: 40,
   },
   logo: {
-    width: 100,
-    height: 40,
+    width: 110,
+    height: 60,
+    resizeMode: 'contain',
   },
-  titleWrapper: {
+  profileCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#fff',
+    elevation: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  profileText: {
+    color: '#A3EEFF',
+    fontSize: 24,
+  },
+  whiteBox: {
+    flex: 1,
     backgroundColor: '#fff',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    paddingVertical: 20,
-    alignItems: 'center',
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 120,
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
     color: '#555',
+    textAlign: 'center',
     marginTop: 4,
-  },
-  agendaBox: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 20,
-    paddingTop: 10,
+    marginBottom: 16,
   },
   appointmentItem: {
     backgroundColor: '#EAEAEA',
