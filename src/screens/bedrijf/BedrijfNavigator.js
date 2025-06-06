@@ -22,7 +22,7 @@ export default function BedrijfNavigator() {
         },
         tabBarActiveTintColor: '#007BFF',
         tabBarInactiveTintColor: 'gray',
-        tabBarStyle: { backgroundColor: '#b2ebf2' },
+        tabBarStyle: { backgroundColor: '#A3EEFF' },
         headerShown: false,
       })}
     >

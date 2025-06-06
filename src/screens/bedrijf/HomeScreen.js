@@ -1,14 +1,20 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity, Image } from 'react-native';
-import { Picker } from '@react-native-picker/picker'; // npm install @react-native-picker/picker
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
-
-
-const studentsData = [
-  { id: '1', name: 'Ilyas Fariss', opleiding: 'Toegepaste Informatica', color: '#90ee90' },
-  { id: '2', name: 'Hana Amrani', opleiding: 'Toegepaste Informatica', color: '#ff69b4' },
-  { id: '3', name: 'Adam Akkay', opleiding: 'Multimedia en Creatieve technologie', color: '#add8e6' },
-  { id: '4', name: 'Adam Jaidi', opleiding: 'Toegepaste Informatica', color: '#9acd32' },
+const students = [
+  { id: 1, name: 'Ilyas Fariss', opleiding: 'Toegepaste Informatica', color: '#99e0a3' },
+  { id: 2, name: 'Hana Amrani', opleiding: 'Toegepaste Informatica', color: '#e69eb0' },
+  { id: 3, name: 'Adam Akkay', opleiding: 'Multimedia en Creatieve technologie', color: '#9bc6e9' },
+  { id: 4, name: 'Adam Jaidi', opleiding: 'Toegepaste Informatica', color: '#b5e383' },
 ];
 
 const opleidingen = [
@@ -19,100 +25,151 @@ const opleidingen = [
 ];
 
 export default function HomeScreen() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedOpleiding, setSelectedOpleiding] = useState('');
+  const [selectedOpleiding, setSelectedOpleiding] = useState('Toegepaste Informatica');
+  const [zoekterm, setZoekterm] = useState('');
 
-  const filteredStudents = studentsData.filter(
-    (student) =>
-      student.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (selectedOpleiding === '' || student.opleiding === selectedOpleiding)
+  const filteredStudents = students.filter(
+    (s) =>
+      s.opleiding === selectedOpleiding &&
+      s.name.toLowerCase().includes(zoekterm.toLowerCase())
   );
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <Image source={require('../../../assets/erasmuslogo.png')} style={styles.logo} />
-        <Text style={styles.title}>REGISTRATIES</Text>
-        <Image source={require('../../../assets/logo3.png')} style={styles.logoRight} />
+        <Image
+          source={require('../../../assets/erasmus_logo.png')}
+          style={styles.logo}
+        />
+        <Text style={styles.headerTitle}>REGISTRATIES</Text>
+        <Image
+          source={require('../../../assets/logo3.png')}
+          style={styles.dLogo}
+        />
       </View>
 
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Zoek een student"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
+      {/* Zoeken en Filter */}
+      <View style={styles.whiteBox}>
+        
 
-      <View style={styles.filterSection}>
-        <Text style={styles.label}>Voorkeur :</Text>
-        <Picker
-          selectedValue={selectedOpleiding}
-          style={styles.picker}
-          onValueChange={(itemValue) => setSelectedOpleiding(itemValue)}
-        >
-          <Picker.Item label="Selecteer opleiding" value="" />
-          {opleidingen.map((opleiding) => (
-            <Picker.Item key={opleiding} label={opleiding} value={opleiding} />
-          ))}
-        </Picker>
-      </View>
-
-      <FlatList
-        data={filteredStudents}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={[styles.avatar, { backgroundColor: item.color }]} />
-            <View>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.opleiding}>{item.opleiding}</Text>
-            </View>
+        <View style={styles.filterContainer}>
+          <Text style={styles.label}>Voorkeur :</Text>
+          <View style={styles.pickerWrapper}>
+            <Picker
+              selectedValue={selectedOpleiding}
+              onValueChange={(itemValue) => setSelectedOpleiding(itemValue)}
+              style={styles.picker}
+            >
+              {opleidingen.map((opleiding) => (
+                <Picker.Item label={opleiding} value={opleiding} key={opleiding} />
+              ))}
+            </Picker>
           </View>
-        )}
-      />
+        </View>
+
+        {/* Studentenlijst */}
+        <FlatList
+          data={filteredStudents}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.studentList}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={[styles.card, { borderLeftColor: item.color }]}>
+              <View style={[styles.avatar, { backgroundColor: item.color }]} />
+              <View>
+                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.opleiding}>{item.opleiding}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: '#e0f7fa' },
+  container: {
+    flex: 1,
+    backgroundColor: '#A3EEFF',
+  },
   header: {
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    backgroundColor: '#A3EEFF',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
   },
-  logo: { width: 50, height: 50, resizeMode: 'contain' },
-  logoRight: { width: 30, height: 30, resizeMode: 'contain' },
-  title: { fontSize: 20, fontWeight: 'bold' },
-
-  searchBar: {
-    height: 40,
+  logo: {
+    width: 55,
+    height: 55,
+    resizeMode: 'contain',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  dLogo: {
+    width: 55,
+    height: 55,
+    resizeMode: 'contain',
+  },
+  whiteBox: {
+    flex: 1,
     backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    marginBottom: 10,
+    marginTop: 10,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    paddingHorizontal: 20,
+    paddingTop: 30,
   },
 
-  filterSection: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-  label: { fontWeight: 'bold', marginRight: 10 },
-  picker: { flex: 1, backgroundColor: '#fff', borderRadius: 10 },
-
+  filterContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  label: {
+    marginRight: 10,
+    fontWeight: 'bold',
+  },
+  pickerWrapper: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  picker: {
+    height: 40,
+    width: '100%',
+  },
+  studentList: {
+    paddingBottom: 80,
+  },
   card: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 16,
-    marginVertical: 5,
     alignItems: 'center',
+    backgroundColor: '#F9F9F9',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    borderLeftWidth: 6,
     elevation: 2,
   },
   avatar: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
     borderRadius: 20,
-    marginRight: 16,
+    marginRight: 15,
   },
-  name: { fontWeight: 'bold', fontSize: 16 },
-  opleiding: { color: '#777' },
+  name: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  opleiding: {
+    fontSize: 13,
+    color: '#666',
+  },
 });
